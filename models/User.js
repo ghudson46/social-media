@@ -1,5 +1,6 @@
 const { model, Schema } = require('mongoose');
 
+// MongoDB schema for each user that will be created
 const userSchema = new Schema({
     username: String,
     password: String,

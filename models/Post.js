@@ -1,5 +1,6 @@
 const { model, Schema } = require('mongoose');
 
+// MongoDB schema for each post that will be created
 const postSchema = new Schema({
     body: String,
     username: String,

@@ -6,6 +6,7 @@ const checkAuth = require('../../util/check-auth');
 
 module.exports = {
     Query: {
+        // Gets all posts from the database
         async getPosts(){
             try {
                 const posts = await Post.find().sort({ createdAt: -1 });
@@ -14,6 +15,7 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        // Gets a single post (by ID) from the database
         async getPost(_, { postId }) {
             try {
                 const post = await Post.findById(postId);
@@ -28,6 +30,7 @@ module.exports = {
         }
     },
     Mutation: {
+        // Creates a post and saves it into the database
         async createPost(_, { body }, context) {
             const user = checkAuth(context);
             console.log(user);
@@ -43,6 +46,7 @@ module.exports = {
 
             return post;
         },
+        // Deletes a post (by ID) from the database
         async deletePost(_, { postId }, context) {
             const user = checkAuth(context);
 

@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server');
 
+// graphQL type definitions
 module.exports = gql`   
     type Post {
         id: ID!
