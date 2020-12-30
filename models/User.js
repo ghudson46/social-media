@@ -6,7 +6,8 @@ const userSchema = new Schema({
     username: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        trim: true,
     },
     password: {
         password: String,
@@ -14,7 +15,8 @@ const userSchema = new Schema({
     },
     email: {
         password: String,
-        required: true
+        required: true,
+        trim: true
     },
     // Use the Date type and let mongoose instantiate it
     createdAt: {
