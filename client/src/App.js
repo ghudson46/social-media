@@ -1,8 +1,9 @@
+import React from 'react';
 import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className="App">
       <h1>19th Hole</h1>
     </div>
   );
