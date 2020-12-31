@@ -1,3 +1,5 @@
+// Use a logging service instead of console
+const pino = require('pino')({ name: 'main', prettyPrint: true });
 const { ApolloServer, PubSub } = require('apollo-server');
 const mongoose = require('mongoose');
 
@@ -15,9 +17,14 @@ const server = new ApolloServer({
 
 mongoose.connect(MONGODB, { useNewUrlParser: true })
     .then(() => {
-        console.log('MongoDB connected');
+        pino.info('MongoDB connected');
         return server.listen({ port: 5000 });
     })
     .then((res) => {
-        console.log(`Server running at ${res.url}`);
+        pino.info(`Server running at ${res.url}`);
+    })
+    // Always handle something going wrong
+    .catch((err) => {
+        pino.error(err, 'Error starting application');
+        process.exit(1);
     });
