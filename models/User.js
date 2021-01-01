@@ -10,11 +10,11 @@ const userSchema = new Schema({
         trim: true,
     },
     password: {
-        password: String,
+        type: String,
         required: true
     },
     email: {
-        password: String,
+        type: String,
         required: true,
         trim: true
     },
@@ -27,7 +27,7 @@ const userSchema = new Schema({
 
 // You can validate the email whenever mongoose tries to upsert
 // Mongoose hooks don't work with arrow functions
-userSchema.paths('email').validate(function (email) {
+userSchema.path('email').validate(function (email) {
     return EMAIL_REGEX.test(email);
 });
 
