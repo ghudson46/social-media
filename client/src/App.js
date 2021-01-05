@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>19th Hole</h1>
+      <h1>19th hole</h1>
     </div>
   );
 }
