@@ -1,7 +1,8 @@
-// The const outside of the function means it'll only need to be instantiated once
-const { EMAIL_REGEX } = require('../consts/regexes');
 
+// the const outside of the function means it'll only need to be instantiated once
+const { EMAIL_REGEX } = require('../consts/regexes');
 // Validates the inputs from registration and login
+
 class Validators {
     static validateRegisterInput (
         username,
@@ -10,7 +11,7 @@ class Validators {
         confirmPassword
     ) {
         const errors = {};
-        // An empty string comes back as falsy
+        // An empty string comes back falsy
         if (!username || !username.trim()) {
             errors.username = 'Username must not be empty';
         }
@@ -27,14 +28,13 @@ class Validators {
         } else if (password !== confirmPassword) {
             errors.confirmPassword = 'Passwords must match';
         }
-    
+
         return {
             errors,
             // 0 will come back as falsy
             valid: !Object.keys(errors).length
         };
     }
-
     static validateLoginInput (username, password) {
         const errors = {};
         if (!username || !username.trim()) {
@@ -43,7 +43,7 @@ class Validators {
         if (!password) {
             errors.password = 'Password must not be empty';
         }
-    
+
         return {
             errors,
             valid: !Object.keys(errors).length

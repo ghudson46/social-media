@@ -1,5 +1,4 @@
 const { model, Schema } = require('mongoose');
-const { EMAIL_REGEX } = require('../consts/regexes');
 
 // MongoDB schema for each user that will be created
 const userSchema = new Schema({
@@ -30,6 +29,4 @@ const userSchema = new Schema({
 userSchema.path('email').validate(function (email) {
     return EMAIL_REGEX.test(email);
 });
-
-// You can export the generated model, but this will prohibit you from tweaking the schema in real time
 module.exports = model('User', userSchema);
