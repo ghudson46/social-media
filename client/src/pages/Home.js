@@ -8,7 +8,6 @@ import PostCard from '../components/PostCard';
 
 function Home() {
     const { loading, data: { getPosts: posts} = {} } = useQuery(FETCH_POSTS_QUERY);
-    console.log(posts);
 
 
   return (
@@ -34,22 +33,24 @@ function Home() {
 }
 
 const FETCH_POSTS_QUERY = gql`
-    query getPosts {
-        id 
-        body 
-        createdAt 
-        username 
-        likeCount
-        likes {
-            username
-        }
-        commentCount
-        comments {
-            id
-            username
-            createdAt
-            body
-        }
+    query {
+        getPosts {
+                id 
+                body 
+                createdAt 
+                username 
+                likeCount
+                likes {
+                    username
+                }
+                commentCount
+                comments {
+                    id
+                    username
+                    createdAt
+                    body
+                }
+            }
     }
 `;
 
