@@ -5,6 +5,14 @@ import moment from 'moment';
 
 function PostCard({ post: { body, createdAt, id, username, likeCount, commentCount, likes }}) {
 
+    const likePost = () => {
+        console.log('like');
+    }
+
+    const commentOnPost = () => {
+        console.log('comment')
+    }
+
     return (
         <Card>
             <Card.Content fluid>
@@ -19,13 +27,21 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                    {body}
                 </Card.Description>
             </Card.Content>
-            <Card.Content extra>
-                <Button as='div' labelPosition='right'>
-                    <Button color='green'>
+            <Card.Content extra style={{display: 'flex', flexDirection: 'row'}}>
+                <Button as='div' labelPosition='right' onClick={likePost}>
+                    <Button color='green' basic>
                         <Icon name='heart' />
                     </Button>
                         <Label basic color='green' pointing='left'>
                             {likeCount}
+                        </Label>
+                </Button>
+                <Button as='div' labelPosition='right' onClick={commentOnPost}>
+                    <Button color='blue' basic>
+                        <Icon name='comments' />
+                    </Button>
+                        <Label basic color='blue' pointing='left'>
+                            {commentCount}
                         </Label>
                 </Button>
             </Card.Content>
