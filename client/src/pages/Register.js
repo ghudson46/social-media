@@ -3,22 +3,20 @@ import { Form, Button } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
+import { useForm } from '../util/hooks';
+
 function Register(props) {
     const [errors, setErrors] = useState({});
-    const [values, setValues] = useState({
+
+    const { onChange, onSubmit, values } = useForm(registerUser, {
         username: '',
         email: '',
         password: '',
         confirmPassword: ''
     })
 
-    const onChange = (e) => {
-        setValues({...values, [e.target.name]: e.target.value})
-    };
-
     const [addUser, { loading}] = useMutation(REGISTER_USER, {
         update(_, result){
-            console.log(result);
             props.history.push('/');
         },
         onError(err) {
@@ -27,15 +25,8 @@ function Register(props) {
         variables: values
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
+    function registerUser() {
         addUser();
-        setValues({
-            username: '',
-            email: '',
-            password: '',
-            confirmPassword: ''
-        })
     };
 
 

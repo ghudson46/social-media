@@ -3,31 +3,33 @@ import { Form, Button } from 'semantic-ui-react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-function Login() {
-    const [values, setValues] = useState({
+import { useForm } from '../util/hooks';
+
+function Login(props) {
+    const [errors, setErrors] = useState({});
+
+    const { onChange, onSubmit, values } = useForm(loginUserCallback, {
         username: '',
-        password: '',
-    });
+        password: ''
+    })
 
-    const onChange = (e) => {
-        setValues({...values, [e.target.name]: e.target.value})
-    };
-
-    const [login, { loading}] = useMutation(LOGIN_USER, {
-        update(proxy, result){
-            console.log(result)
+    const [loginUser, { loading}] = useMutation(LOGIN_USER, {
+        update(_, result){
+            props.history.push('/');
+        },
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
         },
         variables: values
     });
 
-    const onSubmit = (e) => {
-        e.preventDefault();
-        login();
+    function loginUserCallback() {
+        loginUser();
     };
 
     return (
         <div className="form-container">
-            <Form onSubmit={onSubmit} noValidate>
+            <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
                 <h1>Login</h1>
                 <Form.Input
                     label="Username"
@@ -35,6 +37,7 @@ function Login() {
                     name="username"
                     type="text"
                     value={values.username}
+                    error={errors.username ? true : false}
                     onChange={onChange} 
                 />
                 <Form.Input
@@ -43,25 +46,36 @@ function Login() {
                     name="password"
                     type="password"
                     value={values.password}
+                    error={errors.password ? true : false}
                     onChange={onChange} 
                 />
                 <Button type="submit" color="green">
                     Login
                 </Button>
             </Form>
+            {Object.keys(errors).length > 0 && (
+                <div className="ui error message">
+                <ul className="list">
+                {Object.values(errors).map(value => (
+                        <li key={value}>{value}</li>
+                    ))}
+                </ul>
+            </div>
+            )}
         </div>
     )
 }
 
 const LOGIN_USER = gql`
-    mutation{
-    login(username: "Moose" password:"PeanutButter"){
-    id
-    username
-    email
-    token
-  }
-}
+    mutation login($username: String!, $password: String!) {
+        login(username: $username, password: $password) {
+            id
+            email
+            username
+            createdAt
+            token
+        }
+    }
 `;
 
 export default Login
