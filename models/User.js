@@ -1,4 +1,5 @@
 const { model, Schema } = require('mongoose');
+const { EMAIL_REGEX } = require('../consts/regexes');
 
 // MongoDB schema for each user that will be created
 const userSchema = new Schema({
