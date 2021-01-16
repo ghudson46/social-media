@@ -21,7 +21,7 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                     size='mini'
                     src='https://st4.depositphotos.com/5575514/23597/v/600/depositphotos_235978748-stock-illustration-neutral-profile-picture.jpg'
                 />
-                <Card.Header>{username}s</Card.Header>
+                <Card.Header>{username}</Card.Header>
                 <Card.Meta as={Link} to={`/posts/${id}`}>{moment(createdAt).fromNow(true)}</Card.Meta>
                 <Card.Description>
                    {body}
