@@ -1,57 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { Button, Label, Icon } from 'semantic-ui-react';
 
-function LikeButton({ user, post: { id, likeCount, likes }}) {
-    const [liked, setLiked] = useState(false);
-    useEffect(() => {
-        if (user && likes.find((like) => like.username === user.username)) {
-            setLiked(true);
-        } else setLiked(false);
-    }, [user, likes]);
+import MyPopup from '../util/MyPopup';
 
-    const [likePost] = useMutation(LIKE_POST_MUTATION, {
-        variables: { postId: id }
-    })
+function LikeButton({ user, post: { id, likeCount, likes } }) {
+  const [liked, setLiked] = useState(false);
 
-    const likeButton = user? (
-        liked ? (
-            <Button color="green">
-                <Icon name="golf ball" />
-            </Button>
-        ) : (
-            <Button color="green" basic>
-                <Icon name="golf ball" />
-            </Button>
-        )
+  useEffect(() => {
+    if (user && likes.find((like) => like.username === user.username)) {
+      setLiked(true);
+    } else setLiked(false);
+  }, [user, likes]);
+
+  const [likePost] = useMutation(LIKE_POST_MUTATION, {
+    variables: { postId: id }
+  });
+
+  const likeButton = user ? (
+    liked ? (
+      <Button color="green">
+        <Icon name="golf ball" />
+      </Button>
     ) : (
-        <Button as={Link} to="/login" color="green" basic>
-                <Icon name="golf ball" />
-            </Button>
+      <Button color="green" basic>
+        <Icon name="golf ball" />
+      </Button>
     )
-    return (
-        <Button as='div' labelPosition='right' onClick={likePost}>
-            {likeButton}
-                <Label basic color='green' pointing='left'>
-                    {likeCount}
-                </Label>
-        </Button>
-    )
+  ) : (
+    <Button as={Link} to="/login" color="green" basic>
+      <Icon name="golf ball" />
+    </Button>
+  );
+
+  return (
+    <Button as="div" labelPosition="right" onClick={likePost}>
+      <MyPopup content={liked ? 'Unlike' : 'Like'}>{likeButton}</MyPopup>
+      <Label basic color="teal" pointing="left">
+        {likeCount}
+      </Label>
+    </Button>
+  );
 }
 
 const LIKE_POST_MUTATION = gql`
-    mutation likePost($postId: ID!) {
-        likePost(postId: $postId) {
-            id
-            likes {
-                id
-                username
-            }
-            likeCount
-        }
+  mutation likePost($postId: ID!) {
+    likePost(postId: $postId) {
+      id
+      likes {
+        id
+        username
+      }
+      likeCount
     }
+  }
 `;
 
 export default LikeButton;
